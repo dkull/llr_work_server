@@ -55,7 +55,7 @@ def get_next_work():
     )
 
     print(
-        "first and last available work: {} {}".format(
+        "{} ... {}".format(
             available_work[0], available_work[-1]
         )
     )
@@ -118,15 +118,20 @@ class Client:
     def __init__(self, name):
         self.name = name
         self.last_seen = 0
-        self.last_work_duration = 0
+        self.last_work_duration = 1.0  # to not get division by zero
 
 
 class RPCServer(object):
     def __init__(self):
         self.clients = {}
+        self.anomaly_seen = False
 
     def get_work(self, client_name):
-        print("\n-> get work [{}]".format(client_name))
+        if self.anomaly_seen:
+            print("\n-> get work [{}] __ANOMALY_SEEN__".format(client_name))
+        else:
+            print("\n-> get work [{}]".format(client_name))
+
         work = get_next_work()
         if not work:
             print("no work to give")
@@ -134,18 +139,32 @@ class RPCServer(object):
 
         work_name = work_to_name(work)
 
-        f = open(os.path.join(IN_PROGRESS_DIR, work_name), "x")
-        f.write(client_name)
-        f.close()
+        path = os.path.join(IN_PROGRESS_DIR, work_name)
+        f = open(path, "x")
+        try:
+            # python2
+            if isinstance(client_name, bytes):
+                client_name = client_name.decode('utf-8')
+            f.write(client_name)
+            f.close()
 
-        print("giving work {} to {}".format(work, client_name))
+            print("giving work {} to {}".format(work, client_name))
 
-        print_stats(self.clients)
-
-        return work
+            print_stats(self.clients)
+            return work
+        except:
+            f.close()
+            print("removing file due to exception: ", path)
+            os.remove(path)
 
     def report_work(self, client_name, work, result):
         result = result.strip()
+
+        # Python2
+        if isinstance(work[0], bytes):
+            work[0] = work[0].decode('utf-8')
+        if isinstance(result, bytes):
+            result = result.decode('utf-8')
 
         print("\n-> report work [{}] {}".format(client_name, datetime.datetime.utcnow().isoformat()))
         work_name = work_to_name(work)
@@ -159,7 +178,10 @@ class RPCServer(object):
             print("couldn't parse work duration from {}".format(result))
             pass
 
-        print("got result from {} for {} -> {}".format(client_name, work, result))
+        if "is prime!" in result:
+            self.anomaly_seen = True
+        print("{} tested {} -> {}".format(client_name, work, result))
+
         result_exists = os.path.isfile(os.path.join(RESULT_FILES_DIR, work_name))
         if result_exists:
             print("{} reported already done work {}".format(client_name, work_name))

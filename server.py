@@ -7,6 +7,27 @@ WORK_FILES_DIR = "work"
 RESULT_FILES_DIR = "results"
 IN_PROGRESS_DIR = "in_progress"
 
+def scheduled_threads(client_name):
+    now = datetime.datetime.today()
+    day_of_week = now.weekday()
+    current_hour = now.hour
+    with open('schedule.lst', 'r') as f:
+        lines = f.readlines() 
+        for line in lines:
+            tokens = line.split(":")
+            name, threads, days, hours = tokens
+            s_begin, s_hours = map(int, hours.split("+"))
+            hour_range = [int(h) % 24 for h in range(s_begin, s_begin + s_hours)]
+            if name != client_name:
+                continue
+            if str(day_of_week) not in days:
+                continue
+            if current_hour not in hour_range:
+                continue
+            return int(threads)
+
+    return None
+
 
 def work_to_name(work):
     sieve_p = work[0].index(":")
@@ -151,10 +172,15 @@ class RPCServer(object):
             print("giving work {} to {}".format(work, client_name))
 
             print_stats(self.clients)
-            return work
-        except:
+            threads = scheduled_threads(client_name)
+            if threads:
+                print("giving custom threadcount {} to {}".format(threads, client_name))
+                return [work, threads]
+            else:
+                return work
+        except Exception as e:
             f.close()
-            print("removing file due to exception: ", path)
+            print("removing file due to exception: ", path, e)
             os.remove(path)
 
     def report_work(self, client_name, work, result):

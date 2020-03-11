@@ -5,9 +5,9 @@ import sys
 import time
 import socket
 
-print("version: 2019-10-04 12:25")
+print("version: 2020-03-10 13:51")
 
-if sys.platform == "linux":
+if "linux" in sys.platform:
     EXE_PATH = "./llr64"
 else:
     EXE_PATH = "./cllr64.exe"
@@ -46,7 +46,7 @@ while True:
 
         print(work)
         if len(work) == 2:
-            work, work_threads = work[0:2], work[3]
+            work, work_threads = work[0], work[1]
 
         if work:
             f = open('work.npg', 'w')

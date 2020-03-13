@@ -24,13 +24,16 @@ results - contains results for completed work, used actively to know what is don
 in_progress - keeps track of given out unfinished work
 
 schedule.lst file can be used with server to create schedules for clients, it contains lines:
+```
 <machine_name>:<threads>:<nth_weekday,>:<hour_start>+<duration>
 eg: machine-abc:4:0,1,2,3,4:6+11
+```
 This causes client with name/hostname "machine-abc" to use 4 threads of Mon-Fri, from 06:00 to 17:00
 
 
-client.py needs executable llr64 in the same directory
-it currently also needs at least empty work.npg
+client.py needs:
+* executable llr64 in the same directory
+* at least empty work.npg
 
 Setup client/server
 -------------------

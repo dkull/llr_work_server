@@ -19,9 +19,9 @@ Server needs folders to work:
 Files:
   - schedule.lst  # can be empty at first
   
-work - contains npg files that need to be worked on
-results - contains results for completed work, used actively to know what is done
-in_progress - keeps track of given out unfinished work
+* work - contains npg files that need to be worked on
+* results - contains results for completed work, used actively to know what is done
+* in_progress - keeps track of given out unfinished work
 
 schedule.lst file can be used with server to create schedules for clients, it contains lines:
 ```

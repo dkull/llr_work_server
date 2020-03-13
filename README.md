@@ -3,6 +3,8 @@ Work server and client for Jean Penné's LLR 64
 
 Allows a server-client architecture to be used for distributing work to LLR64 instances.
 
+NOTE: It's not safe to run this on the open internet, it has no authentication.
+
 This isn't actually meant to be used by third parties, so it's pretty ugly and hacky. But it works and does everything I need it to do:
 * distribute work to clients
 * allow scheduling of threads for clients based on time

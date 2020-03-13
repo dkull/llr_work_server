@@ -30,7 +30,7 @@ schedule.lst file can be used with server to create schedules for clients, it co
 <machine_name>:<threads>:<nth_weekday,>:<hour_start>+<duration>
 eg: machine-abc:4:0,1,2,3,4:6+11
 ```
-This causes client with name/hostname "machine-abc" to use 4 threads of Mon-Fri, from 06:00 to 17:00
+This causes client with name/hostname "machine-abc" to use 4 threads on Mon-Fri, from 06:00 to 17:00. when no rule matches the default threadcount (supplied as cmd arg) will be used.
 
 
 client.py needs:

@@ -34,14 +34,19 @@ it currently also needs at least empty work.npg
 
 Setup client/server
 -------------------
+```
 pip install zerorpc
+```
 
 Server
 ------
+```
 python3 server.py
+```
 
 Client
 ------
-# 4 is default threadcount
+```
 python3 client.py <default_threads> <server:port> [client_name]
 python3 client.py 4 fin.liiv.me:8830
+```

@@ -12,16 +12,18 @@ This isn't actually meant to be used by third parties, so it's pretty ugly and h
 * actively read new work on every request (allows eg. sieving while running server)
 * pretty stable
 
-Server needs folders to work:
+- Server needs folders to work:
   - in_progress
   - results
   - work
-Files:
+- Files:
   - schedule.lst  # can be empty at first
   
-* work - contains npg files that need to be worked on
-* results - contains results for completed work, used actively to know what is done
-* in_progress - keeps track of given out unfinished work
+```
+work - contains npg files that need to be worked on
+results - contains results for completed work, used actively to know what is done
+in_progress - keeps track of given out unfinished work
+```
 
 schedule.lst file can be used with server to create schedules for clients, it contains lines:
 ```

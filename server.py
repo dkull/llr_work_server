@@ -169,12 +169,15 @@ class RPCServer(object):
             f.write(client_name)
             f.close()
 
-            print("giving work {} to {}".format(work, client_name))
-
             print_stats(self.clients)
             threads = scheduled_threads(client_name)
+
             if threads:
-                print("giving custom threadcount {} to {}".format(threads, client_name))
+                print("giving work {} to {} [threads {}]".format(work, client_name, threads))
+            else:
+                print("giving work {} to {}".format(work, client_name))
+
+            if threads:
                 return [work, threads]
             else:
                 return work

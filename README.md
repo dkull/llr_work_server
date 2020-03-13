@@ -53,5 +53,5 @@ Client
 ------
 ```
 python3 client.py <default_threads> <server:port> [client_name]
-python3 client.py 4 fin.liiv.me:8830
+python3 client.py 4 foobar.com:8811
 ```
